@@ -1,74 +1,95 @@
 import 'dart:io';
-import 'dart:core';
 
-bool winner = false;
-bool isXturn = true;
-int movementCount = 0;
-
-List<String> cordinates = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-List<String> combinations = [
-  '012',
-  '048',
-  '036',
-  '147',
-  '246',
-  '258',
-  '345',
-  '678'
-];
 void main() {
-  generateBoard();
-  getnextCharacter();
+  print("Welcome to Tic-Tac-Toe!");
+
+  // Main game loop
+  while (true) {
+    playGame();  // Call the function to start the game
+
+    // Ask the player if they want to play again
+    print("Do you want to play again? (yes/no)");
+    String playAgain = stdin.readLineSync()?.toLowerCase() ?? "";
+
+    if (playAgain != "yes") {
+      print("Thanks for playing. Goodbye!");
+      break;
+    }
+  }
 }
 
-bool checkCombination(String combination, String checkFor) {
-  List<int> numbers = combination.split('').map((item) {
-    return int.parse(item);
-  }).toList();
-  bool match = false;
-  for (final item in numbers) {
-    if (cordinates[item] == checkFor) {
-      match = true;
+void playGame() {
+  List<String> board = List.filled(9, ' ');  // Initialize an empty 3x3 board
+  List<List<int>> winConditions = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],  // Rows
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],  // Columns
+    [0, 4, 8], [2, 4, 6],  // Diagonals
+  ];
+
+  String playerX = 'X';
+  String playerO = 'O';
+  String currentPlayer = playerX;
+
+  // Game loop for each turn
+  while (true) {
+    printBoard(board);  // Display the current state of the board
+
+    // Prompt the current player for their move
+    print("Player $currentPlayer's turn. Enter your move (1-9): ");
+    int? move = getValidMove(board);
+
+    board[move! - 1] = currentPlayer;  // Place the player's marker on the board
+
+    // Check for a win
+    if (checkWin(board, winConditions, currentPlayer)) {
+      printBoard(board);
+      print("Player $currentPlayer wins!");
+      break;
+    }
+
+    // Check for a draw
+    if (board.every((cell) => cell != ' ')) {
+      printBoard(board);
+      print("It's a draw!");
+      break;
+    }
+
+    currentPlayer = (currentPlayer == playerX) ? playerO : playerX;  // Switch players for the next turn
+  }
+
+  print("Game over!");
+}
+
+void printBoard(List<String> board) {
+  // Display the current state of the board
+  print(" ${board[0]} | ${board[1]} | ${board[2]} ");
+  print("-----------");
+  print(" ${board[3]} | ${board[4]} | ${board[5]} ");
+  print("-----------");
+  print(" ${board[6]} | ${board[7]} | ${board[8]} ");
+}
+
+int? getValidMove(List<String> board) {
+  while (true) {
+    // Prompt the player for their move and validate input
+    String? input = stdin.readLineSync();
+    int? move = int.tryParse(input ?? '');
+    if (move != null && move >= 1 && move <= 9 && board[move - 1] == ' ') {
+      return move;
     } else {
-      match = false;
-      break;
-    }
-  }
-  return match;
-}
-
-void checkWinner(player) {
-  for (final item in combinations) {
-    bool combinationValidity = checkCombination(item, player);
-    if (combinationValidity == true) {
-      print('$player WON!');
-      winner = true;
-      break;
+      print("Invalid move. Please enter a valid move (1-9): ");
     }
   }
 }
 
-void getnextCharacter() {
-  print('Choose Number for ${isXturn == true ? "X" : "O"}');
-  int number = int.parse(stdin.readLineSync()!);
-  cordinates[number - 1] = isXturn ? 'X' : 'O';
-  isXturn = !isXturn;
-  movementCount++;
-  if (movementCount == 9) {
-    winner = true;
-    print('DRAW!');
-  } else {
-    generateBoard();
+bool checkWin(List<String> board, List<List<int>> winConditions, String player) {
+  // Check for a win based on the win conditions
+  for (var condition in winConditions) {
+    if (board[condition[0]] == player &&
+        board[condition[1]] == player &&
+        board[condition[2]] == player) {
+      return true;
+    }
   }
-  checkWinner('X');
-  checkWinner('O');
-  if (winner == false) getnextCharacter();
-}
-
-void generateBoard() {
-  print(' ${cordinates[0]} | ${cordinates[1]} | ${cordinates[2]} ');
-  print('___|___|___');
-  print(' ${cordinates[3]} | ${cordinates[4]} | ${cordinates[5]} ');
-  print('___|___|___');
-  print(' ${cordinates[6]} | ${cordinates[7]} | ${cordinates[8]} ');
+  return false;
 }
