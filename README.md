@@ -1,2 +1,23 @@
-# Tic-Tac-Toe
-To run the Tic-Tac-Toe game copy the code from the file located here named main.dart and put it in the program, for example, VS code, then run the code to show you a grid on the console and you are asked to choose a number so The place of the number you chose will be replaced with an X Then the grid is displayed with the new update and the player is replaced, and entries from players continue until one of them wins or the entire grid is filled.
+ To run the Tic-Tac-Toe game, follow these instructions:
+
+Install Dart:
+Ensure that Dart is installed on your machine.
+
+Copy the Code:
+Copy the provided Dart code for the Tic-Tac-Toe game.
+
+Create a Dart File:
+Open your text editor and paste the code into a new Dart file. Save the file with a .dart extension, for example, tic_tac_toe.dart.
+
+Open Terminal/Command Prompt:
+Open a terminal or command prompt in the directory where you saved the Dart file.
+
+Run the Dart Program:
+Type the following command and press Enter to run the Dart program:
+dart tic_tac_toe.dart
+
+Follow the Instructions:
+The game will start, and you'll see prompts in the console. Follow the instructions to input your moves, and the game will continue until there is a winner or a draw.
+
+Play Again:
+After the game ends, you'll be asked if you want to play again. Type "yes" to play another round or "no" to exit.
