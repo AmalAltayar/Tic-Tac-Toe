@@ -1,1 +1,2 @@
 # Tic-Tac-Toe
+To run the Tic-Tac-Toe game copy the code from the file located here named main.dart and put it in the program, for example, VS code, then run the code to show you a grid on the console and you are asked to choose a number so The place of the number you chose will be replaced with an X Then the grid is displayed with the new update and the player is replaced, and entries from players continue until one of them wins or the entire grid is filled.
